@@ -103,3 +103,135 @@ export interface AuthResponse {
   user: User;
 }
 
+// ==========================================
+// PHASE B TYPES (Matching, Interview, Payment, SLA)
+// ==========================================
+
+export interface CaregiverExperience {
+  id: string;
+  caregiverId: string;
+  category: string;
+  yearsExperience: number;
+  description?: string | null;
+}
+
+export interface CaregiverAvailability {
+  id: string;
+  caregiverId: string;
+  slotDate: string;
+  startTime: string;
+  endTime: string;
+  status: "AVAILABLE" | "BOOKED" | "BLOCKED";
+}
+
+export interface Caregiver {
+  id: string;
+  userId?: string | null;
+  fullName: string;
+  phone?: string | null;
+  email?: string | null;
+  profilePhoto?: string | null;
+  gender: string;
+  age: number;
+  languages: string[];
+  primaryLanguage: string;
+  skills: string[];
+  mobilityExperience: string[];
+  medicalConditions: string[];
+  shiftPreferences: string[];
+  serviceLocalities: string[];
+  hourlyRate: number;
+  dailyRate: number;
+  rating: number;
+  reviewCount: number;
+  verificationStatus: string;
+  isAvailable: boolean;
+  experiences?: CaregiverExperience[];
+}
+
+export interface RecommendationMatch {
+  caregiver: Caregiver;
+  matchScore: number;
+  eligibilityStatus: "ELIGIBLE" | "CONDITIONAL";
+  matchReasons: string[];
+  localityMatch: boolean;
+  languageMatch: boolean;
+}
+
+export interface CaregiverRecommendationResponse {
+  elderId: string;
+  totalMatches: number;
+  recommendations: RecommendationMatch[];
+}
+
+export interface ShortlistResponse {
+  id: string;
+  familyId: string;
+  elderId: string;
+  caregiverId: string;
+  status: string;
+  createdAt: string;
+  caregiver: Caregiver;
+}
+
+export interface Interview {
+  id: string;
+  familyId: string;
+  elderId: string;
+  caregiverId: string;
+  scheduledStart: string;
+  scheduledEnd: string;
+  durationMinutes: number;
+  meetingType: string;
+  meetingReference?: string | null;
+  notes?: string | null;
+  status: "SCHEDULED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+  createdAt: string;
+  updatedAt: string;
+  caregiver?: Caregiver;
+}
+
+export interface PaymentOrder {
+  id: string;
+  familyId: string;
+  elderId: string;
+  caregiverId: string;
+  amount: number;
+  currency: string;
+  description: string;
+  gateway: string;
+  gatewayOrderId?: string | null;
+  status: "CREATED" | "PAID" | "FAILED" | "CANCELLED";
+  createdAt: string;
+  updatedAt: string;
+  caregiver?: Caregiver;
+}
+
+export interface SLAAgreement {
+  id: string;
+  familyId: string;
+  elderId: string;
+  caregiverId: string;
+  version: string;
+  title: string;
+  content: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  acceptedAt?: string | null;
+  acceptedBy?: string | null;
+  createdAt: string;
+  caregiver?: Caregiver;
+}
+
+export interface PhaseBState {
+  id: string;
+  familyId: string;
+  elderId: string;
+  selectedCaregiverId?: string | null;
+  matchingStatus: "NOT_STARTED" | "IN_PROGRESS" | "SHORTLISTED" | "SELECTED";
+  interviewStatus: "NOT_STARTED" | "SCHEDULED" | "COMPLETED" | "PASSED";
+  paymentStatus: "NOT_STARTED" | "ORDER_CREATED" | "PAID";
+  slaStatus: "NOT_STARTED" | "ACCEPTED";
+  phaseStatus: "IN_PROGRESS" | "COMPLETED";
+  updatedAt: string;
+  selectedCaregiver?: Caregiver | null;
+}

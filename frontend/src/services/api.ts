@@ -4,7 +4,14 @@ import type {
   Elder, 
   ElderLocation, 
   LocationVerifyResponse, 
-  HomeAssessment 
+  HomeAssessment,
+  Caregiver,
+  CaregiverRecommendationResponse,
+  ShortlistResponse,
+  Interview,
+  PaymentOrder,
+  SLAAgreement,
+  PhaseBState
 } from '../types';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api';
@@ -158,6 +165,117 @@ class ApiService {
 
   async listHomeAssessments(): Promise<HomeAssessment[]> {
     return this.request<HomeAssessment[]>('/home-assessments');
+  }
+
+  // ==========================================
+  // PHASE B API METHODS
+  // ==========================================
+
+  // --- B1: Matching & Profiles ---
+  async getCaregiverRecommendations(elderId: string): Promise<CaregiverRecommendationResponse> {
+    return this.request<CaregiverRecommendationResponse>(`/elders/${elderId}/caregiver-recommendations/`);
+  }
+
+  async getCaregiverProfile(caregiverId: string): Promise<Caregiver> {
+    return this.request<Caregiver>(`/caregivers/${caregiverId}/`);
+  }
+
+  async addToShortlist(elderId: string, caregiverId: string): Promise<ShortlistResponse> {
+    return this.request<ShortlistResponse>(`/elders/${elderId}/shortlist/`, {
+      method: 'POST',
+      body: JSON.stringify({ caregiverId }),
+    });
+  }
+
+  async getShortlist(elderId: string): Promise<ShortlistResponse[]> {
+    return this.request<ShortlistResponse[]>(`/elders/${elderId}/shortlist/`);
+  }
+
+  async removeFromShortlist(elderId: string, caregiverId: string): Promise<void> {
+    return this.request<void>(`/elders/${elderId}/shortlist/${caregiverId}/`, {
+      method: 'DELETE',
+    });
+  }
+
+  // --- B2: Interview / Intro Call ---
+  async getCaregiverAvailability(caregiverId: string): Promise<any[]> {
+    return this.request<any[]>(`/caregivers/${caregiverId}/availability/`);
+  }
+
+  async scheduleInterview(data: {
+    elderId: string;
+    caregiverId: string;
+    scheduledStart: string;
+    durationMinutes?: number;
+    meetingType?: string;
+    notes?: string;
+  }): Promise<Interview> {
+    return this.request<Interview>('/interviews/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getInterview(interviewId: string): Promise<Interview> {
+    return this.request<Interview>(`/interviews/${interviewId}/`);
+  }
+
+  async cancelInterview(interviewId: string): Promise<Interview> {
+    return this.request<Interview>(`/interviews/${interviewId}/cancel/`, {
+      method: 'POST',
+    });
+  }
+
+  async confirmCaregiverSelection(elderId: string, caregiverId: string): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>('/caregiver-selection/', {
+      method: 'POST',
+      body: JSON.stringify({ elderId, caregiverId }),
+    });
+  }
+
+  // --- B3: Payment & Deposit ---
+  async createPaymentOrder(data: {
+    elderId: string;
+    caregiverId: string;
+    amount: number;
+    currency?: string;
+    description?: string;
+  }): Promise<PaymentOrder> {
+    return this.request<PaymentOrder>('/payments/create-order/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async verifyPayment(data: {
+    paymentOrderId: string;
+    gatewayTransactionId: string;
+    gatewaySignature?: string;
+  }): Promise<{ success: boolean; message: string; paymentOrderId: string; status: string }> {
+    return this.request<{ success: boolean; message: string; paymentOrderId: string; status: string }>('/payments/verify/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getPaymentStatus(orderId: string): Promise<PaymentOrder> {
+    return this.request<PaymentOrder>(`/payments/${orderId}/status/`);
+  }
+
+  // --- B4: SLA Agreement & Status ---
+  async getSLAAgreement(elderId: string, caregiverId: string): Promise<SLAAgreement> {
+    return this.request<SLAAgreement>(`/sla/current/?elder_id=${elderId}&caregiver_id=${caregiverId}`);
+  }
+
+  async acceptSLAAgreement(slaId: string, acceptedBy: string): Promise<SLAAgreement> {
+    return this.request<SLAAgreement>(`/sla/${slaId}/accept/`, {
+      method: 'POST',
+      body: JSON.stringify({ acceptedBy }),
+    });
+  }
+
+  async getPhaseBStatus(elderId: string): Promise<PhaseBState> {
+    return this.request<PhaseBState>(`/phase-b/${elderId}/status/`);
   }
 }
 

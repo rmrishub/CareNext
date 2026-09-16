@@ -1,6 +1,7 @@
 import React from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { OnboardingProvider, useOnboarding } from './context/OnboardingContext';
+import { PhaseBProvider } from './context/PhaseBContext';
 import { Navbar } from './components/Navbar';
 import { AuthModal } from './components/auth/AuthModal';
 import { GeographicVerification } from './components/onboarding/GeographicVerification';
@@ -51,10 +52,10 @@ const AppContent: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-teal-600" />
-            <span>CareConnect Elder Care Platform • Chennai Metropolitcan Care Network</span>
+            <span>CareConnect Elder Care Platform • Chennai Metropolitan Care Network</span>
           </div>
           <div className="flex items-center gap-4">
-            <span>Phase A Intake Engine</span>
+            <span>Phase A & B Intake Engine</span>
             <span>•</span>
             <span>DPDP Act Compliant (asia-south1)</span>
           </div>
@@ -68,7 +69,9 @@ export function App() {
   return (
     <AuthProvider>
       <OnboardingProvider>
-        <AppContent />
+        <PhaseBProvider>
+          <AppContent />
+        </PhaseBProvider>
       </OnboardingProvider>
     </AuthProvider>
   );
