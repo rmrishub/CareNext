@@ -83,3 +83,4 @@ async def accept_sla_agreement(db: AsyncSession, sla_id: str, family_id: str, ac
     await db.commit()
     await db.refresh(sla)
     return sla
+

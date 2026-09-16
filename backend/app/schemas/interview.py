@@ -31,3 +31,4 @@ class InterviewResponse(BaseModel):
 class CaregiverSelectionRequest(BaseModel):
     elderId: str
     caregiverId: str
+

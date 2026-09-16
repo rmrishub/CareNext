@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.future import select
 from app.core.config import settings
+from app.core.database import init_db
+from app.api import auth, me, elders, locations, assessments
 from app.core.database import init_db, AsyncSessionLocal
 from app.api import auth, me, elders, locations, assessments, matching, interviews, payments, sla
 from app.models.caregiver import CaregiverProfile, CaregiverExperience, CaregiverAvailability
@@ -107,6 +109,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
+    description="CareConnect Elder Care Platform API — Family Sponsor Intake & Geographic Verification",
     description="CareConnect Elder Care Platform API — Family Sponsor Intake & Phase B Matching, Intro Call, Payment, SLA",
     lifespan=lifespan
 )
@@ -142,3 +145,4 @@ async def health_check():
         "version": settings.VERSION,
         "environment": settings.ENVIRONMENT
     }
+

@@ -152,3 +152,4 @@ export const PaymentCheckoutModal: React.FC<Props> = ({
     </div>
   );
 };
+

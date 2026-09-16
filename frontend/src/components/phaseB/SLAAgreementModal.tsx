@@ -128,3 +128,4 @@ export const SLAAgreementModal: React.FC<Props> = ({
     </div>
   );
 };
+

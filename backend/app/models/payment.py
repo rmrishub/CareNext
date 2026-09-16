@@ -41,3 +41,4 @@ class PaymentTransaction(Base):
     createdAt = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     order = relationship("PaymentOrder", back_populates="transactions")
+

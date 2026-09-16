@@ -68,3 +68,4 @@ class CaregiverAvailability(Base):
     createdAt = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     caregiver = relationship("CaregiverProfile", back_populates="availabilities")
+

@@ -31,3 +31,4 @@ class MatchResult(Base):
     createdAt = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     caregiver = relationship("CaregiverProfile", lazy="selectin")
+

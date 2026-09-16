@@ -34,6 +34,7 @@ __all__ = [
     "ElderLocationPersistRequest", "ElderLocationResponse",
     "MobilityLevel", "PersonaStatus", "ShiftPreference",
     "ElderCreate", "ElderUpdate", "ElderResponse",
+    "AssessmentStatus", "AssessmentCreate", "AssessmentResponse"
     "AssessmentStatus", "AssessmentCreate", "AssessmentResponse",
     "CaregiverExperienceSchema", "CaregiverAvailabilitySchema", "CaregiverProfileResponse",
     "RecommendationMatch", "CaregiverRecommendationResponse", "ShortlistCreateRequest", "ShortlistResponse",
@@ -41,3 +42,4 @@ __all__ = [
     "PaymentOrderCreateRequest", "PaymentOrderResponse", "PaymentVerifyRequest", "PaymentVerifyResponse",
     "SLAAgreementResponse", "SLAAcceptRequest", "PhaseBStateResponse"
 ]
+

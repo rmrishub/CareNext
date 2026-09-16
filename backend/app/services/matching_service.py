@@ -73,3 +73,4 @@ async def get_recommendations(db: AsyncSession, elder: Elder) -> List[dict]:
     # Sort descending by matchScore
     matches.sort(key=lambda x: x["matchScore"], reverse=True)
     return matches
+

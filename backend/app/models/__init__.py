@@ -8,6 +8,8 @@ from app.models.interview import Interview
 from app.models.payment import PaymentOrder, PaymentTransaction
 from app.models.sla import SLAAgreement, PhaseBState
 
+__all__ = ["User", "Elder", "ElderLocation", "HomeAssessmentRequest"]
+
 __all__ = [
     "User",
     "Elder",

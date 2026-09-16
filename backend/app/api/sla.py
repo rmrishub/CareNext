@@ -44,3 +44,4 @@ async def get_phase_b_status(
 ):
     """Get the overall Phase B status and progress tracker for an elder."""
     return await get_or_create_phase_b_state(db, current_user.id, elder_id)
+

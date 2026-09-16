@@ -4,6 +4,7 @@ import type {
   Elder, 
   ElderLocation, 
   LocationVerifyResponse, 
+  HomeAssessment 
   HomeAssessment,
   Caregiver,
   CaregiverRecommendationResponse,

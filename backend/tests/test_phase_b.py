@@ -126,3 +126,4 @@ async def test_phase_b_full_workflow(client: AsyncClient, test_db: AsyncSession,
     status_res = await client.get(f"/api/v1/phase-b/{elder.id}/status/", headers=auth_headers)
     assert status_res.status_code == 200
     assert status_res.json()["phaseStatus"] == "COMPLETED"
+
